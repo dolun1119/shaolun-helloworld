@@ -3,10 +3,6 @@ kind: Pipeline
 metadata:
   name: pipeline-example-maven
 spec:
-  params:
-    - name: BUILDER_IMAGE
-      description: The image on which builds will run
-      default: pipeline-example-maven:latest
   resources:
     - name: source
       type: git
@@ -14,9 +10,6 @@ spec:
     - name: build
       taskRef:
         name: build-docker
-      params:
-        - name: BUILDER_IMAGE
-          value: $(params.BUILDER_IMAGE)
       resources:
         inputs:
           - name: source
