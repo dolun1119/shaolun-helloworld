@@ -1,7 +1,7 @@
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: pipeline-example-maven
+  name: shaolun-demo-maven
 spec:
   resources:
     - name: source
