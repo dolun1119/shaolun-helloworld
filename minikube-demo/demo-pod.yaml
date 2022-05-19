@@ -8,5 +8,9 @@ spec:
   containers:
     - name: kubernetes-demo-container
       image: dolun1119/spring-boot-demo:latest
+      # imagePullPolicy: Never
       ports:
         - containerPort: 8080
+      env:
+        - name: TEST_GREETING
+          value: "test-env"

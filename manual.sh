@@ -42,10 +42,14 @@ kubectl port-forward service/demo-service 8080:8080
 docker exec -it 5c3cf05ba1c3 /bin/bash
 curl http://localhost:30633
 
+# k8s
+## https://iter01.com/topic/143.html
 
 # kustomize
 ## https://ellis-wu.github.io/2018/07/26/kustomize-introduction/
+## https://zhuanlan.zhihu.com/p/92153378
 ## https://www.qikqiak.com/post/kustomize-101/
+## https://www.densify.com/kubernetes-tools/kustomize
 # install kustomize
 brew install kustomize
 
@@ -54,6 +58,9 @@ brew install kustomize
 ## https://tekton.dev/docs/
 ## https://tekton.dev/docs/getting-started/tasks/
 ## https://blog.cti.app/archives/5829
+https://tekton.dev/vault/pipelines-v0.31.x/
+## Tekton Hello World
+https://knative-sample.com/10-getting-started/60-tekton-hello-world/
 
 # install tekton to kubernetes
 kubectl apply --filename \
@@ -82,4 +89,46 @@ kubectl get taskrun hello-task-run
 
 # check taskrun log
 kubectl logs --selector=tekton.dev/taskRun=hello-task-run
+
+## tekton dashboard
+https://github.com/tektoncd
+## install tekton dashboard
+kubectl apply --filename https://storage.googleapis.com/tekton-releases/dashboard/latest/tekton-dashboard-release.yaml
+# monitor tekton dashboard installation (Note: Hit CTRL+C to stop monitoring.)
+kubectl get pods --namespace tekton-pipelines --watch
+# forward dashboard service port
+kubectl port-forward svc/tekton-dashboard 8097:9097 -n tekton-pipelines
+# go tekton-dashboard
+http://localhost:8097/
+
+
+## integration 
+https://cloud.tencent.com/developer/article/1815076
+
+
+# my repository
+https://gitpub.rakuten-it.com/scm/~shaolun.chen/shaolun-helloworld
+
+
+# tekton
+https://atbug.com/how-tekton-works/
+https://atbug.com/tekton-pipeline-practice/
+# Tekton实现java项目部署到k8s的完整CICD流程
+https://cloud.tencent.com/developer/article/1815076
+# 可視化 Tekton 組件 Tekton Dashboard
+https://blog.cti.app/archives/5829
+
+# docker with java maven
+https://migueldoctor.medium.com/how-to-create-a-custom-docker-image-with-jdk8-maven-and-gradle-ddc90f41cee4
+# docker build flow for java
+https://codefresh.io/docker-tutorial/java_docker_pipeline/
+
+
+https://godleon.github.io/blog/DevOps/tekton-pipeline-building-blocks/
+
+
+kubectl create secret docker-registry dockerhub --docker-server=https://index.docker.io/v1/ --docker-username=[USERNAME] --docker-password=[PASSWORD] --dry-run=client -o json | jq -r '.data.".dockerconfigjson"' | base64 -d > /tmp/config.json && kubectl create secret generic docker-config --from-file=/tmp/config.json && rm -f /tmp/config.json
+kubectl create secret docker-registry dockerhub --docker-server=https://index.docker.io/v1/ --docker-username=[USERNAME] --docker-password=[PASSWORD] --dry-run=client -o json
+kubectl create secret docker-registry dockerhub --docker-server=https://index.docker.io/v1/ --docker-username='dolun1119@gmail.com' --docker-password='!QAZ2wsx3edc' --dry-run=client -o json | jq -r '.data.".dockerconfigjson"' | base64 -d > /tmp/config.json && kubectl create secret generic docker-config --from-file=/tmp/config.json && rm -f /tmp/config.json
+kubectl create secret docker-registry dockerhub --docker-server=https://index.docker.io/v1/ --docker-username='dolun1119@gmail.com' --docker-password='!QAZ2wsx3edc' --dry-run=client -o json
 

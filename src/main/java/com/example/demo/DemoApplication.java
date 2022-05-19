@@ -11,7 +11,11 @@ public class DemoApplication {
 
 	@RequestMapping("/")
 	public String home() {
-		return "Hello Docker World";
+		String greeting = System.getenv("TEST_GREETING");
+		if (greeting == null) {
+			greeting = "default_value";
+		}
+		return "Hello Docker World: " + greeting;
 	}
 
 	public static void main(String[] args) {
