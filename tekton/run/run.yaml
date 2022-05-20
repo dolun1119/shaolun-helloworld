@@ -6,6 +6,7 @@ metadata:
 spec:
   pipelineRef:
     name: build-pipeline
+  
   params:
     - name: git-revision
       value: master
@@ -16,7 +17,9 @@ spec:
     - name: imageTag
       value: latest
     - name: kustomizePath
-      value: "kustomize-demo/overlays/staging"
+      value: kustomize-demo/overlays/staging
+      # value: kustomize-demo/overlays/production
+      
   workspaces:
     - name: git-source
       volumeClaimTemplate:
@@ -29,4 +32,3 @@ spec:
     - name: docker-config
       secret:
         secretName: docker-config
-  # serviceAccountName: tekton-build

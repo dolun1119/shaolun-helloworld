@@ -15,9 +15,11 @@ spec:
       description: Tag to apply to the built image
     - name: kustomizePath
       description: path for kustomize command
+  
   workspaces:
     - name: git-source
-    # - name: docker-config
+    - name: docker-config
+  
   tasks:
     - name: fetch-from-git
       taskRef:
@@ -37,8 +39,6 @@ spec:
       params:
         - name: imageUrl
           value: "$(params.imageUrl)"
-        - name: IMAGE  
-          value: "$(params.imageUrl)"
         - name: imageTag
           value: "$(params.imageTag)"
         - name: CHAINS-GIT_COMMIT
@@ -48,8 +48,8 @@ spec:
       workspaces:
         - name: source
           workspace: git-source
-        # - name: dockerconfig
-        #   workspace: docker-config
+        - name: dockerconfig
+          workspace: docker-config
       runAfter:
         - fetch-from-git
    

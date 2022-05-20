@@ -137,8 +137,8 @@ https://godleon.github.io/blog/DevOps/tekton-pipeline-building-blocks/
 
 kubectl create secret docker-registry dockerhub --docker-server=https://index.docker.io/v1/ --docker-username=[USERNAME] --docker-password=[PASSWORD] --dry-run=client -o json | jq -r '.data.".dockerconfigjson"' | base64 -d > /tmp/config.json && kubectl create secret generic docker-config --from-file=/tmp/config.json && rm -f /tmp/config.json
 kubectl create secret docker-registry dockerhub --docker-server=https://index.docker.io/v1/ --docker-username=[USERNAME] --docker-password=[PASSWORD] --dry-run=client -o json
-kubectl create secret docker-registry dockerhub --docker-server=https://index.docker.io/v1/ --docker-username='dolun1119@gmail.com' --docker-password='!QAZ2wsx3edc' --dry-run=client -o json | jq -r '.data.".dockerconfigjson"' | base64 -d > /tmp/config.json && kubectl create secret generic docker-config --from-file=/tmp/config.json && rm -f /tmp/config.json
-kubectl create secret docker-registry dockerhub --docker-server=https://index.docker.io/v1/ --docker-username='dolun1119@gmail.com' --docker-password='!QAZ2wsx3edc' --dry-run=client -o json
+kubectl create secret docker-registry dockerhub --docker-server=https://index.docker.io/v1/ --docker-username='dolun1119' --docker-password='!QAZ2wsx3edc' --dry-run=client -o json | jq -r '.data.".dockerconfigjson"' | base64 -d > /tmp/config.json && kubectl create secret generic docker-config --from-file=/tmp/config.json && rm -f /tmp/config.json
+kubectl create secret docker-registry dockerhub --docker-server=https://index.docker.io/v1/ --docker-username='dolun1119' --docker-password='!QAZ2wsx3edc' --dry-run=client -o json | jq -r '.data.".dockerconfigjson"' | base64 -d
 
 # https://github.com/jasonsmithio/cncf-pipeline-demo/tree/main/tekton
 
@@ -163,3 +163,9 @@ kubectl port-forward kubernetes-demo-pod 3000:8080
 
 
 # tekton
+
+# kaniko
+## https://github.com/GoogleContainerTools/kaniko/blob/main/README.md#pushing-to-docker-hub
+
+# forward load balancer
+kubectl port-forward service/staging-the-service 3000:8666

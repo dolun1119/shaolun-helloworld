@@ -12,25 +12,22 @@ spec:
     - name: imageTag
       description: Tag to apply to the built image
       default: latest
-    - name: IMAGE
-      description: Name (reference) of the image to build.      
     - name: CHAINS-GIT_COMMIT
       description: Commit value
     - name: CHAINS-GIT_URL
-      description: Git repo URL
-    - name: CONTEXT
-      description: The build context used by Docker.
-      default: .
+      description: Git repo URL 
+      
   workspaces:
     - name: source
-    # - name: dockerconfig
-    #   mountPath: /kaniko/.docker
-  results:
-    - name: IMAGE_DIGEST
-      description: Digest of the image just built.
-    - name: IMAGE_URL
-      description: URL of the image just built.
+    - name: dockerconfig
+      mountPath: /kaniko/.docker
+
   steps:
+    - name: print-git-info
+      image: bash
+      script: |
+        echo $(params.CHAINS-GIT_COMMIT); echo $(params.CHAINS-GIT_URL)
+
     - name: maven
       image: maven:3.8.5-openjdk-11
       imagePullPolicy: IfNotPresent
@@ -44,50 +41,20 @@ spec:
       volumeMounts:
         - name: m2
           mountPath: /root/.m2
-    - name: test
-      image: bash
-      script: |
-        ls $(workspaces.source.path); echo "$(workspaces.source.path)/$(params.pathToDockerFile)"
-    - name: docker-build
-      image: docker
-      workingDir: $(workspaces.source.path)
-      command: 
-        - docker
+
+    - name: build-and-push
+      image: gcr.io/kaniko-project/executor:v1.6.0-debug
+      imagePullPolicy: IfNotPresent
+      command:
+        - /kaniko/executor
       args:
-        - build
-        - -f
-        - $(params.pathToDockerFile)
-        - -t
-        - $(params.imageUrl)
-        - $(params.CONTEXT)
-      volumeMounts:
-        - name: docker-socket
-          mountPath: /var/run/docker.sock
-        - name: docker-library
-          mountPath: /var/lib/docker
-    # - name: build-and-push
-    #   image: gcr.io/kaniko-project/executor:v1.6.0-debug
-    #   imagePullPolicy: IfNotPresent
-    #   command:
-    #     - /kaniko/executor
-    #   args:
-    #     - --dockerfile=$(params.pathToDockerFile)
-    #     - --destination=$(params.imageUrl):$(params.imageTag)
-    #     - --context=$(workspaces.source.path)
-    #     - --digest-file=$(results.IMAGE_DIGEST.path)
-    # - name: write-url
-    #   image: bash
-    #   script: |
-    #     set -e
-    #     echo $(params.IMAGE) | tee $(results.IMAGE_URL.path)       
+        - --dockerfile=$(params.pathToDockerFile)
+        - --destination=$(params.imageUrl):$(params.imageTag)
+        - --context=$(workspaces.source.path)
+
   volumes:
     - name: m2
       hostPath:
         path: /data/.m2
-    - name: docker-socket
-      hostPath:
-        path: /var/run/docker.sock
-        type: Socket
-    - name: docker-library
-      hostPath:
-        path: /var/lib/docker
+
+        
