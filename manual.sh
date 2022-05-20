@@ -8,7 +8,6 @@ docker build -t dolun1119/spring-boot-demo .
 # run & see it works or not
 docker run --name spring-boot-demo -p 8080:8080 dolun1119/spring-boot-demo
 
-
 # push image to docker repository
 docker push dolun1119/spring-boot-demo
 curl http://localhost:8080
@@ -21,6 +20,8 @@ curl http://localhost:8080
 
 # install minikube
 brew install minikube 
+# minikube Accessing apps
+https://minikube.sigs.k8s.io/docs/handbook/accessing/
 
 # common kubectl commands
 kubectl get all
@@ -115,8 +116,15 @@ https://atbug.com/how-tekton-works/
 https://atbug.com/tekton-pipeline-practice/
 # Tekton实现java项目部署到k8s的完整CICD流程
 https://cloud.tencent.com/developer/article/1815076
-# 可視化 Tekton 組件 Tekton Dashboard
+# Tekton example
 https://blog.cti.app/archives/5829
+https://github.com/sunny0826/pipeline-example-maven
+# tekton pipeline example
+https://www.51cto.com/article/703642.html
+# jenkins -> tekton
+https://www.51cto.com/article/704400.html
+# tekton element
+https://godleon.github.io/blog/DevOps/tekton-pipeline-building-blocks/
 
 # docker with java maven
 https://migueldoctor.medium.com/how-to-create-a-custom-docker-image-with-jdk8-maven-and-gradle-ddc90f41cee4
@@ -132,3 +140,26 @@ kubectl create secret docker-registry dockerhub --docker-server=https://index.do
 kubectl create secret docker-registry dockerhub --docker-server=https://index.docker.io/v1/ --docker-username='dolun1119@gmail.com' --docker-password='!QAZ2wsx3edc' --dry-run=client -o json | jq -r '.data.".dockerconfigjson"' | base64 -d > /tmp/config.json && kubectl create secret generic docker-config --from-file=/tmp/config.json && rm -f /tmp/config.json
 kubectl create secret docker-registry dockerhub --docker-server=https://index.docker.io/v1/ --docker-username='dolun1119@gmail.com' --docker-password='!QAZ2wsx3edc' --dry-run=client -o json
 
+# https://github.com/jasonsmithio/cncf-pipeline-demo/tree/main/tekton
+
+
+
+### weekly sharing
+
+# k8s
+# minikube
+minikube status
+## k8s with one node.
+
+## demo create a pod
+kubectl get all
+kubectl get pods
+kubectl delete pod kubernetes-demo-pod
+vi minikube-demo/demo-pod.yaml
+kubectl apply -f minikube-demo/demo-pod.yaml
+kubectl port-forward kubernetes-demo-pod 3000:8080
+
+# kustomize
+
+
+# tekton

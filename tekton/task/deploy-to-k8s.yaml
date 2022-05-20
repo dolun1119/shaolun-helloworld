@@ -15,9 +15,13 @@ spec:
         ls $(workspaces.source.path); echo "$(workspaces.source.path)/$(params.kustomizePath)"
     - name: run-kubectl
       image: lachlanevenson/k8s-kubectl:v1.21.11
+      # image: gcr.io/cloud-builders/kubectl
       imagePullPolicy: IfNotPresent
       command: ["kubectl"]
       args:
         - "apply"
         - "-k"
         - "$(workspaces.source.path)/$(params.kustomizePath)"
+        # - "apply"
+        # - "-f"
+        # - "$(workspaces.source.path)/minikube-demo/demo-pod.yaml"
