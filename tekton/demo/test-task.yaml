@@ -7,30 +7,9 @@ spec:
     - name: print-parameters
       image: bash
       script: |
-        ls; echo "test test"
+        ls; echo "test test"; pwd
     - name: echo
       image: alpine
       script: |
         #!/bin/sh
-        echo "Hello World" 
-    - name: docker-build
-      image: docker
-      # workingDir: $(workspaces.source.path)
-      command: 
-        - docker
-      args:
-        - image
-        - ls
-      volumeMounts:
-        - name: docker-socket
-          mountPath: /var/run/docker.sock
-        - name: docker-library
-          mountPath: /var/lib/docker
-  volumes:
-    - name: docker-socket
-      hostPath:
-        path: /var/run/docker.sock
-        type: Socket
-    - name: docker-library
-      hostPath:
-        path: /var/lib/docker
+        echo "Hello World"
